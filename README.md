@@ -41,19 +41,6 @@ The episode return is the total accumulated reward across all steps in the episo
   - line chart of episode returns
   - normal distribution curves of returns
 
-## Project Structure
-
-```text
-project/
-│
-├── epss_cvss.py
-├── data/
-│   ├── catalog_2023_2025_cvss.csv
-│   ├── results_line.png
-│   └── results_normal_curves.png
-└── README.md
-```
-
 ## Requirements
 
 Install the required Python packages:
@@ -62,27 +49,7 @@ Install the required Python packages:
 pip install numpy pandas matplotlib scipy gymnasium
 ```
 
-## Dataset Requirements
 
-The script expects the following CSV file:
-
-```text
-data/catalog_2023_2025_cvss.csv
-```
-
-It must include at least these columns:
-
-- `epss`
-- `cvss_base`
-
-Example:
-
-```csv
-epss,cvss_base
-0.42,8.8
-0.10,5.6
-0.75,9.1
-```
 
 ## How It Works
 
@@ -131,49 +98,6 @@ Run:
 python epss_cvss.py
 ```
 
-## Output
-
-When executed, the script:
-
-1. Prints summary statistics for both strategies
-2. Saves a line chart to:
-
-```text
-data/results_line.png
-```
-
-3. Saves normal distribution comparison curves to:
-
-```text
-data/results_normal_curves.png
-```
-
-## Example Result Interpretation
-
-- If the **rule-based EPSS × CVSS** policy shows a higher mean return than the random policy, it suggests that simple heuristic prioritization is more effective than random selection.
-- The line plot shows how episode returns vary across runs.
-- The normal curve plot gives a visual comparison of the distributions of returns for both strategies.
-
-## Main Components
-
-### `load_catalog(catalog_path)`
-Loads and formats the vulnerability dataset.
-
-### `VulnTriageEnv`
-Custom Gym environment for backlog-based triage.
-
-### `random_policy(obs, action_space)`
-Baseline random selection strategy.
-
-### `rule_policy_product(backlog_size)`
-Heuristic strategy that selects the max `EPSS × CVSS` item.
-
-### `run(policy, catalog, backlog_size, steps, episodes, seed0)`
-Executes repeated episodes and returns total episode rewards.
-
-### `main()`
-Runs the full experiment, prints statistics, and saves plots.
-
 ## Notes
 
 - CVSS scores are normalized by dividing `cvss_base` by `10.0`
@@ -181,18 +105,3 @@ Runs the full experiment, prints statistics, and saves plots.
 - The environment samples vulnerabilities randomly from the catalog
 - The current implementation is a simulation baseline and can be extended with reinforcement learning agents later
 
-## Possible Future Improvements
-
-- Add a learned RL policy for comparison
-- Include additional vulnerability features
-- Add statistical significance tests to compare strategies
-- Track cumulative averages across episodes
-- Add bar charts or box plots for easier comparison
-
-## License
-
-Add your preferred license here, for example:
-
-```text
-MIT License
-```
